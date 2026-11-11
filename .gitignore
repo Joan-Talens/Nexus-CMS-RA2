@@ -1,2 +1,6 @@
 .env
 migracion-temporal/
+backups/
+exportaciones/
+logs/
+informes/
