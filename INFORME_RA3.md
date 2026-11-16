@@ -103,3 +103,34 @@ Se conservaron activos:
 ## 9. Conclusión
 
 Con esta práctica se ha aprendido a gestionar usuarios y permisos de WordPress, crear roles personalizados, instalar y configurar plugins y comprobar el funcionamiento de los formularios, el almacenamiento de mensajes y el historial de actividad.
+
+## 10. Comparación de plugins para R1 y R3
+
+### R1. Formularios de contacto y almacenamiento
+
+Se compararon las siguientes opciones:
+
+| Plugin | Instalaciones activas | Valoración | Última actualización |
+|---|---:|---:|---|
+| Contact Form 7 | 10.000.000 | 80 | 10/11/2026 |
+| Forminator | 600.000 | 96 | 02/11/2026 |
+| CFDB7 | 600.000 | 100 | 09/10/2026 |
+
+**Elección: Contact Form 7 + Flamingo.**
+
+Se eligió esta combinación porque permite crear formularios personalizados y almacenar los mensajes recibidos directamente en WordPress.
+
+### R3. Registro de actividad de usuarios
+
+Se compararon las siguientes opciones:
+
+| Plugin | Instalaciones activas | Valoración | Última actualización |
+|---|---:|---:|---|
+| WP Activity Log | 300.000 | 94 | 05/11/2026 |
+| Aryo Activity Log | 200.000 | 86 | 28/10/2026 |
+| Simple History | 300.000 | 98 | 17/10/2026 |
+
+**Elección: Simple History.**
+
+Se eligió por su valoración de 98 sobre 100 y porque permite consultar desde el panel de WordPress las acciones realizadas por los usuarios.
+
