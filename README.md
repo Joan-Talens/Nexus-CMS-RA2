@@ -1,4 +1,3 @@
-
 # Nexus CMS - RA2
 
 Este proyecto consiste en montar una página web con WordPress utilizando Docker, Nginx y MariaDB. También se ha probado su funcionamiento en local y mediante GitHub Codespaces.
@@ -108,6 +107,7 @@ Para utilizar el proyecto necesitamos:
   - `personalizacion.md`: personalización de WordPress.
   - `seguridad.md`: medidas de seguridad.
   - `pruebas.md`: pruebas de funcionamiento y rendimiento.
+- `scripts/`: scripts de copias de seguridad y restauración.
 
 ## 6. Documentación
 
@@ -128,3 +128,58 @@ También se ha configurado Nginx para bloquear el acceso a `xmlrpc.php`.
 El proyecto se ha probado en local y en GitHub Codespaces.
 
 En local se accede mediante el puerto 8080 y en Codespaces mediante una dirección HTTPS pública.
+
+## 9. Copias de seguridad y restauración
+
+Se han creado dos scripts para realizar copias de seguridad y recuperar el proyecto en caso de pérdida de datos.
+
+### 9.1. Crear una copia de seguridad
+
+Para ejecutar una copia de seguridad:
+
+```bash
+./scripts/backup.sh
+```
+
+El script realiza las siguientes operaciones:
+
+- Genera una copia comprimida de la base de datos MariaDB en formato `.sql.gz`.
+- Comprime la carpeta `wp-content` de WordPress en formato `.tar.gz`.
+- Comprueba la integridad de los archivos generados.
+- Conserva las últimas 7 copias de seguridad.
+
+Los archivos se guardan en el directorio `backups/`.
+
+### 9.2. Restaurar una copia de seguridad
+
+Para consultar las copias disponibles:
+
+```bash
+./scripts/restore.sh
+```
+
+Para restaurar una copia concreta, se indica su fecha:
+
+```bash
+./scripts/restore.sh AAAAMMDD-HHMMSS
+```
+
+El script comprueba los archivos, solicita confirmación y restaura la base de datos y la carpeta `wp-content`.
+
+### 9.3. Prueba de restauración
+
+Se ha realizado una prueba de recuperación utilizando la copia `20261118-133015`.
+
+1. Se eliminó la entrada de WordPress con ID 60.
+2. Se eliminó el plugin Flamingo.
+3. Se ejecutó el script de restauración.
+4. Se comprobó que la entrada y el plugin volvían a estar disponibles.
+
+La prueba finalizó correctamente: la entrada ID 60 volvió a aparecer y Flamingo quedó instalado y activo.
+
+### 9.4. Consideraciones
+
+- El archivo `.env` se mantiene separado y no se incluye en las copias ni en GitHub.
+- El directorio `backups/` está incluido en `.gitignore` para evitar publicar copias de seguridad.
+- En GitHub Codespaces las copias se ejecutan manualmente, ya que el entorno puede detenerse. Se recomienda descargar periódicamente los archivos de `backups/`.
+- La programación mediante `cron` debe realizarse en el equipo del aula.

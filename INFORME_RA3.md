@@ -134,3 +134,69 @@ Se compararon las siguientes opciones:
 
 Se eligió por su valoración de 98 sobre 100 y porque permite consultar desde el panel de WordPress las acciones realizadas por los usuarios.
 
+## 11. Copias de seguridad y restauración
+
+### 11.1. Creación de copias de seguridad
+
+Se creó el script `scripts/backup.sh` para automatizar las copias de seguridad del proyecto.
+
+El script realiza las siguientes operaciones:
+
+- Genera una copia de la base de datos MariaDB en formato `.sql.gz`.
+- Comprime la carpeta `wp-content` de WordPress en formato `.tar.gz`.
+- Comprueba la integridad de los archivos generados.
+- Conserva las últimas 7 copias de seguridad.
+
+Las copias se almacenan en el directorio `backups/`.
+
+Para ejecutar el script:
+
+```bash
+./scripts/backup.sh
+```
+
+Se comprobó su funcionamiento correctamente. Como prueba, se generaron los archivos correspondientes a la copia `20261118-133015`.
+
+### 11.2. Restauración de copias
+
+Se creó el script `scripts/restore.sh` para recuperar la base de datos y los archivos de WordPress a partir de una copia anterior.
+
+El script permite consultar las copias disponibles y seleccionar la fecha que se quiere restaurar. Antes de realizar la operación, comprueba la integridad de los archivos y solicita confirmación al usuario.
+
+Para restaurar una copia:
+
+```bash
+./scripts/restore.sh 20261118-133015
+```
+
+Durante las pruebas se corrigió el comando de extracción del archivo de `wp-content`, permitiendo completar correctamente la restauración.
+
+### 11.3. Prueba de recuperación
+
+Para comprobar que el sistema de copias funciona correctamente, se realizó una prueba controlada:
+
+1. Se creó una copia de seguridad.
+2. Se eliminó la entrada de WordPress con ID 60, titulada «Mi primera entrada como autor».
+3. Se eliminó el plugin Flamingo.
+4. Se comprobó que ambos elementos habían desaparecido.
+5. Se ejecutó el script de restauración utilizando la copia `20261118-133015`.
+6. Se comprobó que la entrada ID 60 volvió a aparecer.
+7. Se verificó que Flamingo volvió a estar instalado y activo.
+
+La prueba finalizó correctamente, demostrando que se pueden recuperar tanto los datos de la base de datos como los archivos de WordPress.
+
+### 11.4. Protección de las copias
+
+Se añadió `backups/` al archivo `.gitignore` para evitar que las copias de seguridad se publiquen en GitHub.
+
+El archivo `.env` se mantiene separado para proteger las credenciales de acceso.
+
+En GitHub Codespaces las copias se ejecutan manualmente, ya que el entorno puede detenerse. Se recomienda descargar periódicamente los archivos de seguridad.
+
+La programación automática mediante `cron` se realizará en el equipo del aula.
+
+## 12. Conclusión de la práctica RA3
+
+En esta práctica se ha trabajado con la administración de WordPress, la gestión de usuarios y roles, la instalación de plugins, el control de actividad y la configuración de copias de seguridad.
+
+También se ha comprobado mediante una prueba real que es posible recuperar una entrada eliminada y un plugin desinstalado utilizando los scripts desarrollados.
